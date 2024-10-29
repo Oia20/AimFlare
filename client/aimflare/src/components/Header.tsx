@@ -1,8 +1,13 @@
 export const Header = () => {
     return (
-      <header className="bg-gray-900 p-4">
+      <header className="bg-gray-800">
         <div className="container mx-auto flex justify-between items-center">
-          <h1 className="text-white text-3xl font-bold">AimFlare</h1>
+            <div className="flex items-center ">
+                <svg width="75" height="75">
+                    <image href="/AimFlare Logo Minimal.png" width="75" height="75" />
+                </svg>
+                <h1 className="text-white text-3xl font-bold">AimFlare</h1>
+            </div>
           <nav>
             <ul className="flex space-x-6">
               {["About", "Features", "Pricing", "Community", "Contact"].map((item) => (

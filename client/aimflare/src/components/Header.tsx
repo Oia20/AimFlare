@@ -6,7 +6,7 @@ export const Header = () => {
                 <svg width="75" height="75">
                     <image href="/AimFlare Logo Minimal.png" width="75" height="75" />
                 </svg>
-                <h1 className="text-white text-3xl font-bold">AimFlare</h1>
+                <h1 className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent text-3xl font-bold">AimFlare</h1>
             </div>
           <nav>
             <ul className="flex space-x-6">

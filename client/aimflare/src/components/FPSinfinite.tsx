@@ -4,7 +4,14 @@ import { PointerLockControls } from '@react-three/drei';
 import * as THREE from 'three';
 import type { ThreeEvent } from '@react-three/fiber';
 
-// HUD component rendered outside Canvas
+// FPS Counter component that uses useFrame inside Canvas
+const FPSCounter: React.FC<{ onFrame: () => void }> = ({ onFrame }) => {
+  useFrame(() => {
+    onFrame();
+  });
+  return null;
+};
+
 const HUD: React.FC<{
   fps: number;
   time: number;
@@ -34,46 +41,61 @@ const HUD: React.FC<{
 };
 
 const Crosshair: React.FC = () => (
-  <div
-    style={{
-      position: 'absolute',
-      top: '50%',
-      left: '50%',
-      transform: 'translate(-50%, -50%)',
-      width: '10px',
-      height: '10px',
-      background: 'black',
-      borderRadius: '50%',
-      zIndex: 100,
-    }}
-  />
+  <div style={{
+    position: 'absolute',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)',
+    width: '10px',
+    height: '10px',
+    background: 'black',
+    borderRadius: '50%',
+    zIndex: 100,
+  }}/>
 );
 
 type TargetProps = {
   position: [number, number, number];
-  onHit: () => void;
+  onHit: (e: ThreeEvent<MouseEvent>) => void;
 };
 
 const Target: React.FC<TargetProps> = ({ position, onHit }) => {
   const meshRef = useRef<THREE.Mesh>(null);
   const [isHovered, setIsHovered] = useState(false);
 
-  useFrame(({ camera }) => {
-    if (!meshRef.current) return;
-    const raycaster = new THREE.Raycaster();
-    const mouse = new THREE.Vector2();
-    mouse.x = 0;
-    mouse.y = 0;
-    raycaster.setFromCamera(mouse, camera);
-    const intersects = raycaster.intersectObject(meshRef.current);
-    setIsHovered(intersects.length > 0);
-  });
-
   return (
-    <mesh ref={meshRef} position={position} onClick={onHit}>
+    <mesh 
+      ref={meshRef} 
+      position={position} 
+      onClick={onHit} 
+      onPointerEnter={() => setIsHovered(true)}
+      onPointerLeave={() => setIsHovered(false)}
+    >
       <sphereGeometry args={[0.5, 32, 32]} />
       <meshStandardMaterial color={isHovered ? 'yellow' : 'red'} />
     </mesh>
+  );
+};
+
+const ClickToStart: React.FC = () => {
+  const [started, setStarted] = useState(false);
+
+
+  return (
+    <div style={{
+      position: 'absolute',
+      top: '50%',
+      left: '50%',
+      transform: 'translate(-50%, -50%)',
+      width: '100%',
+      height: '100%',
+      zIndex: 100,
+      cursor: 'pointer',
+      display: started ? 'none' : 'block',
+    }}>
+        <div onClick={() => setStarted(true)}>
+        </div>
+    </div>
   );
 };
 
@@ -92,22 +114,19 @@ type AimLabSceneProps = {
 const AimLabScene: React.FC<AimLabSceneProps> = ({ onHit, onShot }) => {
   const [targetPosition, setTargetPosition] = useState<[number, number, number]>(generateRandomPosition());
 
-  const handleTargetHit = () => {
+  const handleTargetHit = (e: ThreeEvent<MouseEvent>) => {
+    e.stopPropagation();
     onHit();
     setTargetPosition(generateRandomPosition());
   };
 
-  const handleClick = () => {
-    onShot();
-  };
-
   return (
-    <group onClick={handleClick}>
+    <>
       <ambientLight intensity={0.5} />
       <pointLight position={[10, 10, 10]} />
       <Target position={targetPosition} onHit={handleTargetHit} />
       <PointerLockControls />
-    </group>
+    </>
   );
 };
 
@@ -116,6 +135,7 @@ const FPSInfinite: React.FC = () => {
   const [time, setTime] = useState(0);
   const [hits, setHits] = useState(0);
   const [totalShots, setTotalShots] = useState(0);
+  const [started, setStarted] = useState(false)
   const frameRef = useRef<number>(0);
 
   useEffect(() => {
@@ -127,12 +147,22 @@ const FPSInfinite: React.FC = () => {
     return () => clearInterval(interval);
   }, []);
 
+  // Handle clicks anywhere in the canvas
+  const handleClick = () => {
+    setTotalShots(prev => prev + 1); // Count a shot whenever the canvas is clicked
+  };
+
   return (
     <>
-      <Canvas style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }}>
+      <ClickToStart />
+      <Canvas 
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} 
+        onClick={handleClick} // Add click handler here
+      >
+        <FPSCounter onFrame={() => frameRef.current++} />
         <AimLabScene 
           onHit={() => setHits(prev => prev + 1)}
-          onShot={() => setTotalShots(prev => prev + 1)}
+          onShot={handleClick} // Count the shot on hit as well
         />
       </Canvas>
       <Crosshair />

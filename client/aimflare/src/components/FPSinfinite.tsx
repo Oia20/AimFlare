@@ -1,8 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
-import { PointerLockControls } from '@react-three/drei';
+import { Canvas, useFrame, useLoader } from '@react-three/fiber';
+import { PointerLockControls, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 import type { ThreeEvent } from '@react-three/fiber';
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 
 // FPS Counter component that uses useFrame inside Canvas
 const FPSCounter: React.FC<{ onFrame: () => void }> = ({ onFrame }) => {
@@ -11,6 +12,37 @@ const FPSCounter: React.FC<{ onFrame: () => void }> = ({ onFrame }) => {
   });
   return null;
 };
+
+function LoadEnvironment() {
+  const gltf = useLoader(GLTFLoader, '/tiles2.glb');
+  const group = useRef<THREE.Group>(null); // Update type to THREE.Group
+
+  // Handle click event
+  const handleClick = () => {
+    console.log("Environment Clicked");
+  };
+
+  return (
+    <group ref={group} onClick={handleClick}>
+      {gltf.scene && <primitive object={gltf.scene} />}
+    </group>
+  );
+}
+function Environment(props: any) {
+  // Create a ref to manipulate the mesh
+  const mesh = useRef<THREE.Mesh>(null);
+  return (
+    <group>
+      <mesh
+        ref={mesh}
+        position={[0, -1, -25]}
+        scale={[5, 5, 2]}
+      >
+        <LoadEnvironment />
+      </mesh>
+    </group>
+  );
+}
 
 const HUD: React.FC<{
   fps: number;
@@ -46,9 +78,9 @@ const Crosshair: React.FC = () => (
     top: '50%',
     left: '50%',
     transform: 'translate(-50%, -50%)',
-    width: '10px',
-    height: '10px',
-    background: 'black',
+    width: '5px',
+    height: '5px',
+    background: 'yellow',
     borderRadius: '50%',
     zIndex: 100,
   }}/>
@@ -72,7 +104,7 @@ const Target: React.FC<TargetProps> = ({ position, onHit }) => {
       onPointerLeave={() => setIsHovered(false)}
     >
       <sphereGeometry args={[0.5, 32, 32]} />
-      <meshStandardMaterial color={isHovered ? 'yellow' : 'red'} />
+      <meshStandardMaterial color={isHovered ? 'yellow' : 'green'} />
     </mesh>
   );
 };
@@ -122,8 +154,8 @@ const AimLabScene: React.FC<AimLabSceneProps> = ({ onHit, onShot }) => {
 
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} />
+      <ambientLight intensity={.5} />
+      <pointLight position={[0, 5, -5]} color="white" intensity={50} scale={1}/>
       <Target position={targetPosition} onHit={handleTargetHit} />
       <PointerLockControls />
     </>
@@ -156,9 +188,11 @@ const FPSInfinite: React.FC = () => {
     <>
       <ClickToStart />
       <Canvas 
-        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0 }} 
+        style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'black' }} 
         onClick={handleClick} // Add click handler here
       >
+        <Stars/>
+        <Environment/>
         <FPSCounter onFrame={() => frameRef.current++} />
         <AimLabScene 
           onHit={() => setHits(prev => prev + 1)}

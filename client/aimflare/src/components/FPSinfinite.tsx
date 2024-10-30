@@ -157,7 +157,7 @@ const AimLabScene: React.FC<AimLabSceneProps> = ({ onHit, onShot }) => {
       <ambientLight intensity={.5} />
       <pointLight position={[0, 5, -5]} color="white" intensity={50} scale={1}/>
       <Target position={targetPosition} onHit={handleTargetHit} />
-      <PointerLockControls />
+      <PointerLockControls pointerSpeed={1.5}/>
     </>
   );
 };

@@ -1,4 +1,6 @@
 // About.js
+import FPSLanding from "./FPSlanding";
+
 export const About = () => {
     return (
       <section id="about" className="py-20 bg-gray-800 text-white">

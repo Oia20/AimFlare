@@ -1,7 +1,13 @@
-import react from "react"
+import React from "react"
 
-export const Features = () => {
-    const featuresList = [
+
+interface Feature {
+    title: string;
+    description: string;
+}
+
+export const Features:React.FC = () => {
+    const featuresList: Feature[] = [
       { title: "Browser Based", description: "Pick up your aim training on any device without a download." },
       { title: "Progress Tracking", description: "Track your aim-training progress over-time with interactive charts." },
       { title: "Personalization Options", description: "Customize sensitivity and crosshair for your needs." },

@@ -1,7 +1,8 @@
 // About.js
 import './about.css'
+import React from "react";
 
-export const About = () => {
+export const About:React.FC = () => {
   return (
     <section id="about" className="relative py-20 text-white">
       {/* Blurred background with gradient overlay */}

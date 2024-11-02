@@ -4,6 +4,7 @@ import { PointerLockControls, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 import type { ThreeEvent } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import './FPSlanding.css'
 
 function LoadEnvironment() {
   const gltf = useLoader(GLTFLoader, '/tiles2.glb');
@@ -80,7 +81,6 @@ const AimLabScene: React.FC = () => {
       <ambientLight intensity={.5} />
       <pointLight position={[0, 5, -5]} color="white" intensity={50} scale={1}/>
       <Target position={targetPosition} onHit={handleTargetHit} />
-      <PointerLockControls pointerSpeed={1.5}/>
     </>
   );
 };
@@ -88,20 +88,39 @@ const AimLabScene: React.FC = () => {
 const FPSLanding: React.FC = () => {
 
   const frameRef = useRef<number>(0);
-
-
-
+  const [showInstructions, setShowInstructions] = useState<Boolean>(true);
+  function pointerlockchange() {
+    setShowInstructions(!showInstructions)
+}
+useEffect(() => {
+  document.addEventListener('pointerlockchange', pointerlockchange, false)
+  return () => {
+      document.removeEventListener('pointerlockchange', pointerlockchange, false)
+  }
+})
   return (
     <>
       {/* <ClickToStart /> */}
       <Canvas 
         style={{ position: 'relative', width: '60vw', height: '60vh', background: 'black', borderRadius: '10px'}} 
       >
+      <PointerLockControls selector="#button" />
+
         <Stars/>
         <Environment/>
         <AimLabScene 
         />
       </Canvas>
+      <div id="instructions" className={showInstructions ? 'show' : 'hide'}>
+          <button id="button" className='show absolute top-0 w-3/5 h-full z-50 bg-black bg-opacity-50 cursor-pointer rounded-lg' onClick={() => setShowInstructions(true)}>
+            Click To Start
+          </button>
+      </div>
+
+      <div id="instructions" className={showInstructions ? 'hide' : 'show'}>
+        <h1 className="flex justify-center w-3/5 absolute top-3 right-0">Esc To Exit</h1>
+      </div>
+
     </>
   );
 };

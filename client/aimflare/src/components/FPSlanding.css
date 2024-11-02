@@ -1,0 +1,14 @@
+
+#instructions button {
+    font-size: 24px;
+    pointer-events: auto;
+}
+
+.show {
+    transition: opacity 1s linear;
+    opacity: 1;
+}
+.hide {
+    transition: opacity 1s linear;
+    opacity: 0;
+}

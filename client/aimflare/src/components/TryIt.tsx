@@ -13,7 +13,7 @@ const Crosshair: React.FC = () => (
     height: '5px',
     background: 'yellow',
     borderRadius: '50%',
-    zIndex: 100,
+    zIndex: 40,
   }}/>
 );
 export const TryIt: React.FC = () => {

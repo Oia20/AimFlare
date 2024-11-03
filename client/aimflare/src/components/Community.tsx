@@ -20,37 +20,16 @@ export const Community = () => {
             share your progress, and be part of our growing community.
           </p>
 
-          {/* Stats Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-12">
-            {stats.map(({ icon: Icon, label, value }) => (
-              <div key={label} className="p-6 bg-gray-800 rounded-lg hover:bg-gray-750 transition-all duration-300">
-                <Icon className="w-8 h-8 mx-auto text-blue-400" />
-                <div className="mt-4 font-bold text-2xl">{value}</div>
-                <div className="text-gray-400">{label}</div>
-              </div>
-            ))}
-          </div>
-
           {/* Social Links */}
           <div className="mt-12 flex flex-col md:flex-row justify-center items-center gap-6">
             <a 
-              href="https://github.com/aimflare"
+              href="https://github.com/Oia20/AimFlare"
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center px-6 py-3 bg-gray-800 rounded-lg hover:bg-gray-750 transition-all duration-300 w-full md:w-auto"
             >
               <Github className="w-6 h-6 mr-3" />
               <span>Star us on GitHub</span>
-            </a>
-
-            <a 
-              href="https://discord.gg/aimflare"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center px-6 py-3 bg-gradient-to-r from-blue-400 to-purple-500 rounded-lg hover:shadow-lg transition-all duration-300 w-full md:w-auto"
-            >
-              <Radio className="w-6 h-6 mr-3" />
-              <span>Join Discord</span>
             </a>
 
             <a 
@@ -71,22 +50,7 @@ export const Community = () => {
             </a>
           </div>
 
-          {/* Developer Call to Action */}
-          <div className="mt-16 p-8 bg-gray-800 rounded-lg">
-            <h3 className="text-2xl font-bold mb-4">🚀 Calling All Developers!</h3>
-            <p className="text-gray-400 mb-6">
-              We're open source! Help us improve AimFlare by contributing to our GitHub repository. 
-              Whether it's fixing bugs, adding features, or improving documentation - every contribution counts!
-            </p>
-            <a 
-              href="https://github.com/aimflare/contribute"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-block px-6 py-3 bg-gradient-to-r from-blue-400 to-purple-500 text-white rounded-lg hover:shadow-lg transition-all duration-300"
-            >
-              Start Contributing
-            </a>
-          </div>
+    
         </div>
       </div>
     </section>

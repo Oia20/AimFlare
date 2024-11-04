@@ -23,7 +23,7 @@ export const TryIt: React.FC = () => {
       window.open("/infinite", "_blank");
     }
     return (
-      <section id="about" className="py-10 bg-gradient-to-b from-gray-900 to-gray-900 text-white h-content">
+      <section id="try" className="py-10 bg-gradient-to-b from-gray-900 to-gray-900 text-white h-content">
         <div className="text-center max-w-3xl mx-auto mb-12">
           <h2 className="text-5xl font-bold mb-6">
             <span className="bg-gradient-to-r from-blue-400 to-purple-500 bg-clip-text text-transparent">

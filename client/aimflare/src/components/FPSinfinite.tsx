@@ -4,6 +4,7 @@ import { PointerLockControls, Stars } from '@react-three/drei';
 import * as THREE from 'three';
 import type { ThreeEvent } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+import InfiniteSettings from './InfiniteSettings';
 
 // FPS Counter component that uses useFrame inside Canvas
 const FPSCounter: React.FC<{ onFrame: () => void }> = ({ onFrame }) => {
@@ -169,6 +170,8 @@ const FPSInfinite: React.FC = () => {
   const [totalShots, setTotalShots] = useState(0);
   const [started, setStarted] = useState(false)
   const frameRef = useRef<number>(0);
+  const [settingsOpen, setSettingsOpen] = useState<boolean>(true);
+
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -186,6 +189,7 @@ const FPSInfinite: React.FC = () => {
 
   return (
     <>
+      {settingsOpen && <InfiniteSettings settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} />}
       <ClickToStart />
       <Canvas 
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'black' }} 

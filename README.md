@@ -1,6 +1,7 @@
-#Aimflare 
+# Aimflare 
 
-The open source video game aim trainer
+## The open source video game aim trainer
 
-TODO:
-Sensitivity slider with accurate mapping to different video games.
+# Todo
+- Sensitivity slider in infinite mode.
+- Crosshair changing in infinite mode.

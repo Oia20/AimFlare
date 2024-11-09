@@ -5,6 +5,7 @@ import * as THREE from 'three';
 import type { ThreeEvent } from '@react-three/fiber';
 import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 import InfiniteSettings from './InfiniteSettings';
+import FPS from './Fps';
 
 // FPS Counter component that uses useFrame inside Canvas
 const FPSCounter: React.FC<{ onFrame: () => void }> = ({ onFrame }) => {
@@ -191,6 +192,7 @@ const FPSInfinite: React.FC = () => {
     <>
       {settingsOpen && <InfiniteSettings settingsOpen={settingsOpen} setSettingsOpen={setSettingsOpen} />}
       <ClickToStart />
+      <FPS />
       <Canvas 
         style={{ position: 'absolute', top: 0, left: 0, right: 0, bottom: 0, background: 'black' }} 
         onClick={handleClick} // Add click handler here
